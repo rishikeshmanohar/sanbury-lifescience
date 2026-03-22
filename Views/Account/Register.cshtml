@@ -1,0 +1,31 @@
+@model SanburyLifeScience.Web.ViewModels.RegisterViewModel
+@using SanburyLifeScience.Web.Models
+
+<h2>Register</h2>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="FullName"></label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="GstNumber"></label>
+        <input asp-for="GstNumber" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LicenseNumber"></label>
+        <input asp-for="LicenseNumber" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Role"></label>
+        <select asp-for="Role" class="form-control" asp-items="Html.GetEnumSelectList<UserRole>()"></select>
+    </div>
+    <button class="btn btn-success">Register</button>
+</form>

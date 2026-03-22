@@ -1,0 +1,36 @@
+@model SanburyLifeScience.Web.Models.Order
+
+<h2>Order #@Model.Id</h2>
+<p><strong>Status:</strong> @Model.Status</p>
+<p><strong>Payment:</strong> @Model.PaymentStatus</p>
+<p><strong>Reference:</strong> @Model.PaymentReference</p>
+<p><strong>Customer:</strong> @Model.AppUser?.FullName</p>
+<p><strong>Billing Address:</strong> @Model.BillingAddress</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>GST</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Product?.Name</td>
+            <td>@item.Quantity</td>
+            <td>₹@item.UnitPrice</td>
+            <td>@item.GstPercent%</td>
+            <td>₹@item.LineTotal</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h5>Subtotal: ₹@Model.SubTotal</h5>
+<h5>GST: ₹@Model.GstAmount</h5>
+<h4>Grand Total: ₹@Model.GrandTotal</h4>

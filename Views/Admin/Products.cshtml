@@ -1,0 +1,28 @@
+@model List<SanburyLifeScience.Web.Models.Product>
+<h2>Manage Products</h2>
+<a asp-action="CreateProduct" class="btn btn-success mb-3">Add Product</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Expiry</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Category</td>
+            <td>@item.Brand</td>
+            <td>₹@item.Price</td>
+            <td>@item.StockQuantity</td>
+            <td>@item.ExpiryDate.ToShortDateString()</td>
+        </tr>
+    }
+    </tbody>
+</table>

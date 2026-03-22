@@ -1,0 +1,41 @@
+@model List<SanburyLifeScience.Web.Services.CartItemDto>
+@{
+    decimal subtotal = Model.Sum(x => x.Price * x.Quantity);
+    decimal gst = Model.Sum(x => (x.Price * x.Quantity * x.GstPercent) / 100m);
+    decimal total = subtotal + gst;
+}
+
+<h2>Cart</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>GST</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        var line = item.Price * item.Quantity;
+        var lineGst = line * item.GstPercent / 100m;
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Quantity</td>
+            <td>₹@item.Price</td>
+            <td>@item.GstPercent%</td>
+            <td>₹@(line + lineGst)</td>
+            <td><a asp-action="Remove" asp-route-productId="@item.ProductId" class="btn btn-danger btn-sm">Remove</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h5>Subtotal: ₹@subtotal</h5>
+<h5>GST: ₹@gst</h5>
+<h4>Grand Total: ₹@total</h4>
+
+<a asp-controller="Orders" asp-action="Checkout" class="btn btn-primary">Proceed to Checkout</a>

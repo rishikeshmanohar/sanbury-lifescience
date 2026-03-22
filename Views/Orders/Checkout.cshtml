@@ -1,0 +1,11 @@
+@model SanburyLifeScience.Web.ViewModels.CheckoutViewModel
+
+<h2>Checkout</h2>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="BillingAddress"></label>
+        <textarea asp-for="BillingAddress" class="form-control"></textarea>
+        <span asp-validation-for="BillingAddress" class="text-danger"></span>
+    </div>
+    <button class="btn btn-success">Place Order</button>
+</form>
