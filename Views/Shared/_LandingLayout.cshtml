@@ -29,9 +29,9 @@
                         <span class="sls-caret" aria-hidden="true"></span>
                     </button>
                     <div class="sls-dropdown">
-                        <a href="#about">Overview</a>
-                        <a href="#leadership">Leadership</a>
-                        <a href="#investors">Milestones</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="about">Overview</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="leadership">Leadership</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="investors">Milestones</a>
                     </div>
                 </div>
 
@@ -41,17 +41,17 @@
                         <span class="sls-caret" aria-hidden="true"></span>
                     </button>
                     <div class="sls-dropdown">
-                        <a href="#innovation">Overview</a>
-                        <a href="#formulations">Formulations</a>
-                        <a href="#apis">APIs</a>
-                        <a href="#biologics">Biologics</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="innovation">Overview</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="formulations">Formulations</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="apis">APIs</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="biologics">Biologics</a>
                     </div>
                 </div>
 
-                <a class="sls-nav-link" href="#manufacturing">Manufacturing</a>
-                <a class="sls-nav-link" href="#investors">Investors</a>
-                <a class="sls-nav-link" href="#newsroom">Media Centre</a>
-                <a class="sls-nav-link" href="#csr">CSR</a>
+                <a class="sls-nav-link" asp-controller="Home" asp-action="Index" asp-fragment="manufacturing">Manufacturing</a>
+                <a class="sls-nav-link" asp-controller="Home" asp-action="Index" asp-fragment="investors">Investors</a>
+                <a class="sls-nav-link" asp-controller="Home" asp-action="Index" asp-fragment="newsroom">Media Centre</a>
+                <a class="sls-nav-link" asp-controller="Home" asp-action="Index" asp-fragment="csr">CSR</a>
 
                 <div class="sls-nav-item sls-nav-has-dropdown">
                     <button class="sls-nav-link sls-nav-trigger" type="button" data-dropdown-toggle aria-expanded="false">
@@ -59,13 +59,13 @@
                         <span class="sls-caret" aria-hidden="true"></span>
                     </button>
                     <div class="sls-dropdown">
-                        <a href="#careers">Life at Sanbury</a>
-                        <a href="#careers">Learnings & Growth</a>
-                        <a href="#careers">Current Openings</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="careers">Life at Sanbury</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="careers">Learnings & Growth</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="careers">Current Openings</a>
                     </div>
                 </div>
 
-                <a class="sls-nav-link" href="#contact">Contact Us</a>
+                <a class="sls-nav-link" asp-controller="Home" asp-action="Index" asp-fragment="contact">Contact Us</a>
                 <a class="sls-nav-link" asp-controller="Cart" asp-action="Index">Cart</a>
                 @if (User.Identity?.IsAuthenticated == true)
                 {

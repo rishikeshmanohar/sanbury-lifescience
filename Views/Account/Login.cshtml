@@ -1,13 +1,54 @@
 @model SanburyLifeScience.Web.ViewModels.LoginViewModel
-<h2>Login</h2>
-<form method="post">
-    <div class="mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
+@{
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "Login";
+}
+
+<section class="sls-auth-page">
+    <div class="sls-auth-wrap">
+        <aside class="sls-auth-side">
+            <p class="sls-auth-kicker">Sanbury LifeScience</p>
+            <h1>Welcome Back</h1>
+            <p class="sls-auth-copy">
+                Sign in to access your pharmacy account, manage orders, and continue procurement with our quality-first product portfolio.
+            </p>
+            <ul class="sls-auth-points">
+                <li>Fast and secure account access</li>
+                <li>Real-time order and cart visibility</li>
+                <li>Trusted supply support for partners</li>
+            </ul>
+        </aside>
+
+        <div class="sls-auth-card">
+            <h2>Client Login</h2>
+            <p class="sls-auth-subtitle">Use your registered email and password to continue.</p>
+
+            <form method="post" asp-action="Login" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger sls-validation-summary"></div>
+
+                <div class="sls-field">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="sls-auth-submit">Login</button>
+            </form>
+
+            <p class="sls-auth-switch">
+                New to Sanbury?
+                <a asp-controller="Account" asp-action="Register">Create an account</a>
+            </p>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-    </div>
-    <button class="btn btn-primary">Login</button>
-</form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,31 +1,81 @@
 @model SanburyLifeScience.Web.ViewModels.RegisterViewModel
 @using SanburyLifeScience.Web.Models
+@{
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "Register";
+}
 
-<h2>Register</h2>
-<form method="post">
-    <div class="mb-3">
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
+<section class="sls-auth-page">
+    <div class="sls-auth-wrap sls-auth-wrap-register">
+        <aside class="sls-auth-side">
+            <p class="sls-auth-kicker">Sanbury LifeScience</p>
+            <h1>Partner Registration</h1>
+            <p class="sls-auth-copy">
+                Join our network of healthcare professionals and businesses with easy onboarding built for compliance, speed, and reliability.
+            </p>
+            <ul class="sls-auth-points">
+                <li>Onboard quickly with verified business details</li>
+                <li>Access broad therapeutic portfolio ordering</li>
+                <li>Scale with dependable pharma supply</li>
+            </ul>
+        </aside>
+
+        <div class="sls-auth-card">
+            <h2>Create Account</h2>
+            <p class="sls-auth-subtitle">Complete your business profile to get started.</p>
+
+            <form method="post" asp-action="Register" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger sls-validation-summary"></div>
+
+                <div class="sls-field">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" class="form-control" autocomplete="name" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="sls-field-grid">
+                    <div class="sls-field">
+                        <label asp-for="GstNumber"></label>
+                        <input asp-for="GstNumber" class="form-control" />
+                        <span asp-validation-for="GstNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="sls-field">
+                        <label asp-for="LicenseNumber"></label>
+                        <input asp-for="LicenseNumber" class="form-control" />
+                        <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="Role"></label>
+                    <select asp-for="Role" class="form-control" asp-items="Html.GetEnumSelectList<UserRole>()"></select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="sls-auth-submit">Register</button>
+            </form>
+
+            <p class="sls-auth-switch">
+                Already have an account?
+                <a asp-controller="Account" asp-action="Login">Login</a>
+            </p>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="GstNumber"></label>
-        <input asp-for="GstNumber" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="LicenseNumber"></label>
-        <input asp-for="LicenseNumber" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control" asp-items="Html.GetEnumSelectList<UserRole>()"></select>
-    </div>
-    <button class="btn btn-success">Register</button>
-</form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

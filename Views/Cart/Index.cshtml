@@ -1,41 +1,79 @@
-@model List<SanburyLifeScience.Web.Services.CartItemDto>
+﻿@model List<SanburyLifeScience.Web.Services.CartItemDto>
 @{
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "Cart";
+
     decimal subtotal = Model.Sum(x => x.Price * x.Quantity);
     decimal gst = Model.Sum(x => (x.Price * x.Quantity * x.GstPercent) / 100m);
     decimal total = subtotal + gst;
 }
 
-<h2>Cart</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>GST</th>
-            <th>Total</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        var line = item.Price * item.Quantity;
-        var lineGst = line * item.GstPercent / 100m;
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Quantity</td>
-            <td>₹@item.Price</td>
-            <td>@item.GstPercent%</td>
-            <td>₹@(line + lineGst)</td>
-            <td><a asp-action="Remove" asp-route-productId="@item.ProductId" class="btn btn-danger btn-sm">Remove</a></td>
-        </tr>
-    }
-    </tbody>
-</table>
+<section class="sls-cart-page">
+    <div class="sls-cart-shell">
+        <div class="sls-cart-head">
+            <p class="sls-cart-kicker">Sanbury Order Desk</p>
+            <h1>Your Cart</h1>
+            <p class="sls-cart-copy">Review selected products, verify GST totals, and continue to checkout.</p>
+        </div>
 
-<h5>Subtotal: ₹@subtotal</h5>
-<h5>GST: ₹@gst</h5>
-<h4>Grand Total: ₹@total</h4>
+        @if (Model.Any())
+        {
+            <div class="sls-cart-layout">
+                <div class="sls-cart-items">
+                    @foreach (var item in Model)
+                    {
+                        var line = item.Price * item.Quantity;
+                        var lineGst = line * item.GstPercent / 100m;
+                        var lineTotal = line + lineGst;
 
-<a asp-controller="Orders" asp-action="Checkout" class="btn btn-primary">Proceed to Checkout</a>
+                        <article class="sls-cart-item-card">
+                            <div class="sls-cart-item-main">
+                                <h2>@item.Name</h2>
+                                <p>Product ID: @item.ProductId</p>
+                                <div class="sls-cart-tags">
+                                    <span>Qty: @item.Quantity</span>
+                                    <span>GST: @item.GstPercent%</span>
+                                    <span>Unit: INR @item.Price</span>
+                                </div>
+                            </div>
+                            <div class="sls-cart-item-total">
+                                <p>Line Total</p>
+                                <h3>INR @lineTotal</h3>
+                                <a asp-action="Remove" asp-route-productId="@item.ProductId" class="sls-cart-remove">Remove</a>
+                            </div>
+                        </article>
+                    }
+                </div>
+
+                <aside class="sls-cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="sls-summary-row">
+                        <span>Subtotal</span>
+                        <strong>INR @subtotal</strong>
+                    </div>
+                    <div class="sls-summary-row">
+                        <span>GST</span>
+                        <strong>INR @gst</strong>
+                    </div>
+                    <div class="sls-summary-row sls-summary-total">
+                        <span>Grand Total</span>
+                        <strong>INR @total</strong>
+                    </div>
+
+                    <div class="sls-summary-actions">
+                        <a asp-controller="Orders" asp-action="Checkout" class="sls-auth-submit sls-checkout-btn">Proceed to Checkout</a>
+                        <a asp-controller="Home" asp-action="Index" asp-fragment="manufacturing" class="sls-summary-back">Continue Shopping</a>
+                    </div>
+                </aside>
+            </div>
+        }
+        else
+        {
+            <div class="sls-cart-empty">
+                <h2>Your cart is empty</h2>
+                <p>Add products from our therapy portfolio to begin your order.</p>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="manufacturing" class="sls-auth-submit sls-checkout-btn">Browse Products</a>
+            </div>
+        }
+    </div>
+</section>
