@@ -1,34 +1,263 @@
 ﻿@model List<SanburyLifeScience.Web.Models.Product>
 @{
-    ViewData["Title"] = "Products";
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "Cure & Beyond";
+
+    var query = Context.Request.Query["q"].ToString();
+    var productsCount = Model.Count;
+    var categoryCount = Model.Where(x => !string.IsNullOrWhiteSpace(x.Category))
+        .Select(x => x.Category.Trim())
+        .Distinct()
+        .Count();
+    var brandCount = Model.Where(x => !string.IsNullOrWhiteSpace(x.Brand))
+        .Select(x => x.Brand.Trim())
+        .Distinct()
+        .Count();
+
+    var scaleProducts = Math.Max(productsCount, 350);
+    var scaleBrands = Math.Max(brandCount, 200);
+    var scaleCountries = Math.Max(categoryCount, 70);
+    var scalePatients = Math.Max(productsCount * 30, 11000);
 }
 
-<form method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search products" />
-        <button class="btn btn-primary">Search</button>
+<section class="sls-hero" id="top">
+    <div class="sls-hero-shell">
+        <p class="sls-kicker reveal">Sanbury LifeScience</p>
+        <h1 class="reveal delay-1">Cure <span>&</span> Beyond</h1>
+        <p class="sls-hero-intro reveal delay-2">
+            Developing patient-first therapies with trusted science, robust manufacturing, and responsible partnerships that scale access to quality care.
+        </p>
+        <div class="sls-hero-actions reveal delay-3">
+            <a class="sls-btn sls-btn-primary" href="#manufacturing">Explore Portfolio</a>
+            <a class="sls-btn sls-btn-ghost" href="#about">Our Story</a>
+        </div>
+        <div class="sls-scroll-cue reveal delay-3">Scroll</div>
     </div>
-</form>
+</section>
 
-<div class="row">
-@foreach (var item in Model)
-{
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5>@item.Name</h5>
-                <p>@item.Description</p>
-                <p><strong>Brand:</strong> @item.Brand</p>
-                <p><strong>Category:</strong> @item.Category</p>
-                <p><strong>Price:</strong> ₹@item.Price</p>
-                <p><strong>GST:</strong> @item.GstPercent%</p>
-                <form asp-controller="Cart" asp-action="Add" method="post">
-                    <input type="hidden" name="productId" value="@item.Id" />
-                    <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
-                    <button class="btn btn-success w-100">Add to Cart</button>
-                </form>
+<section class="sls-news-strip" id="newsroom">
+    <div class="sls-news-inner">
+        <div class="sls-news-label">Newsroom</div>
+        <p class="sls-news-headline">
+            Sanbury LifeScience expands sterile manufacturing capability to accelerate global delivery of affordable, high-quality therapeutics.
+        </p>
+        <a class="sls-news-link" href="#investors">Read More</a>
+    </div>
+</section>
+
+<section class="sls-about" id="about">
+    <div class="section-shell">
+        <span class="sls-anchor" id="overview"></span>
+        <h2 class="sls-section-title reveal">Curing the World, Caring Beyond</h2>
+        <div class="sls-about-grid">
+            <div class="sls-about-copy reveal delay-1">
+                <p>
+                    Sanbury LifeScience is built to advance modern pharmaceutical outcomes through deep research, process discipline, and patient-centric innovation.
+                    Our teams collaborate across discovery, quality control, and commercialization to deliver trusted therapies at scale.
+                </p>
+                <p>
+                    We focus on differentiated formulations across acute and chronic therapies, strengthening care pathways for hospitals, clinics, and retail partners.
+                    Our compliance-led operations support reliable supply, transparent quality, and fast execution.
+                </p>
+                <p>
+                    With a growing portfolio and agile R&D pipeline, Sanbury continues to create practical healthcare solutions that improve everyday life for patients and families.
+                </p>
+            </div>
+            <div class="sls-about-media reveal delay-2">
+                <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1400&q=80" alt="Smiling mother and child in a healthcare environment" />
             </div>
         </div>
     </div>
-}
-</div>
+</section>
+
+<section class="sls-quote-wrap" id="investors">
+    <div class="section-shell">
+        <span class="sls-anchor" id="leadership"></span>
+        <div class="sls-quote-card reveal">
+            <figure class="sls-quote-photo">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1000&q=80" alt="Company leadership portrait" />
+            </figure>
+            <div class="sls-quote-body">
+                <div class="sls-quote-mark">&ldquo;</div>
+                <p>
+                    Since inception, Sanbury has remained committed to introducing differentiated products backed by science and innovation.
+                    We continue to work with healthcare ecosystems to deliver affordable, high-quality therapeutic options that enable healthier lives.
+                    Our conviction remains clear: when science leads, people win.
+                </p>
+                <h3 class="sls-quote-name">Satish Ramanlal Mehta</h3>
+                <p class="sls-quote-role">Managing Director and Chief Executive Officer</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sls-metrics" id="innovation">
+    <div class="sls-metrics-shell">
+        <h2 class="sls-metrics-title reveal">Driven by Quality, Measured by Trust</h2>
+        <div class="sls-metrics-grid">
+            <div class="sls-metrics-copy reveal delay-1">
+                <p>
+                    Sanbury LifeScience drives pharmaceutical progress through an integrated model of R&D, compliant manufacturing, and lifecycle quality assurance.
+                    Our end-to-end execution supports reliable outcomes for providers and distribution partners.
+                </p>
+                <p>
+                    From robust process validation to scalable production systems, we focus on consistent quality, operational speed, and long-term patient impact.
+                </p>
+            </div>
+            <div class="sls-stat-grid reveal delay-2">
+                <article class="sls-stat-card">
+                    <h3 class="sls-stat-value">@scaleProducts+</h3>
+                    <span class="sls-stat-label">Portfolio Products</span>
+                </article>
+                <article class="sls-stat-card">
+                    <h3 class="sls-stat-value">@scaleBrands+</h3>
+                    <span class="sls-stat-label">Brands</span>
+                </article>
+                <article class="sls-stat-card">
+                    <h3 class="sls-stat-value">@scaleCountries+</h3>
+                    <span class="sls-stat-label">Market Segments</span>
+                </article>
+                <article class="sls-stat-card">
+                    <h3 class="sls-stat-value">@scalePatients+</h3>
+                    <span class="sls-stat-label">Patients Reached</span>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sls-portfolio" id="manufacturing">
+    <div class="section-shell">
+        <span class="sls-anchor" id="formulations"></span>
+        <span class="sls-anchor" id="apis"></span>
+        <span class="sls-anchor" id="biologics"></span>
+        <div class="sls-portfolio-head reveal">
+            <div>
+                <h2>Therapy Portfolio</h2>
+                <p>Search and add products directly to your cart for fast order creation.</p>
+            </div>
+        </div>
+
+        <form method="get" class="sls-search reveal delay-1">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search by product, brand, or category" value="@query" />
+                <button type="submit" class="btn">Search</button>
+            </div>
+        </form>
+
+        @if (Model.Any())
+        {
+            <div class="sls-products-grid">
+                @foreach (var item in Model)
+                {
+                    <article class="sls-product-card reveal delay-2">
+                        <h3 class="sls-product-title">@item.Name</h3>
+                        <p class="sls-product-meta">@item.Brand | @item.Category</p>
+                        <p class="sls-product-description">@item.Description</p>
+                        <div class="sls-product-footer">
+                            <div>
+                                <p class="sls-product-price">INR @item.Price</p>
+                                <p class="sls-product-gst">GST: @item.GstPercent%</p>
+                            </div>
+                        </div>
+                        <form class="sls-cart-form" asp-controller="Cart" asp-action="Add" method="post">
+                            <input type="hidden" name="productId" value="@item.Id" />
+                            <div class="sls-cart-row">
+                                <input type="number" name="quantity" value="1" min="1" />
+                                <button type="submit">Add to Cart</button>
+                            </div>
+                        </form>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="sls-empty-state reveal delay-2">
+                No products found. Try a different search term to explore available portfolio items.
+            </div>
+        }
+    </div>
+</section>
+
+<footer class="sls-footer-mega" id="contact">
+    <div class="sls-footer-topband"></div>
+    <div class="sls-footer-shell">
+        <span class="sls-anchor" id="csr"></span>
+        <span class="sls-anchor" id="careers"></span>
+        <a class="sls-touch-badge" href="#top">
+            <span class="sls-touch-title">Get In Touch</span>
+            <span class="sls-touch-sub">Partner with us</span>
+        </a>
+
+        <div class="sls-footer-grid">
+            <section class="sls-footer-col sls-footer-office">
+                <h2 class="sls-footer-brand">Sanbury</h2>
+                <p class="sls-footer-office-title">Registered Office:</p>
+                <p class="sls-footer-office-copy">
+                    Plot No. P-1 and P-2, IT-BT Park,<br />
+                    Phase-II, M.I.D.C., Hinjawadi,<br />
+                    Pune - 411057, Maharashtra, India
+                </p>
+                <a class="sls-footer-contact-link" href="mailto:corporate@sanburylifescience.com">corporate@sanburylifescience.com</a>
+                <a class="sls-footer-contact-link" href="tel:+912035040000">+91 20 3504 0000</a>
+                <div class="sls-social-row">
+                    <a href="#" aria-label="Facebook">Fb</a>
+                    <a href="#" aria-label="Instagram">Ig</a>
+                    <a href="#" aria-label="X">X</a>
+                    <a href="#" aria-label="LinkedIn">In</a>
+                </div>
+            </section>
+
+            <section class="sls-footer-col">
+                <h3>Quick Links</h3>
+                <a href="#top">Home</a>
+                <a href="#innovation">Science & Innovation</a>
+                <a href="#formulations">Formulations</a>
+                <a href="#apis">API</a>
+                <a href="#biologics">Biologics</a>
+                <a href="#manufacturing">Manufacturing</a>
+                <a href="#investors">Investors</a>
+                <a href="#newsroom">Media Centre</a>
+                <a href="#csr">CSR</a>
+                <a href="#contact">Contact Us</a>
+            </section>
+
+            <section class="sls-footer-col">
+                <h3>Who We Are</h3>
+                <a href="#about">About Us</a>
+                <a href="#investors">Milestones</a>
+                <a href="#leadership">Leadership</a>
+            </section>
+
+            <section class="sls-footer-col">
+                <h3>Group Companies</h3>
+                <a href="#">Zuventus</a>
+                <a href="#">Gennova</a>
+                <a href="#">Tillomed</a>
+                <a href="#">Marcan</a>
+                <a href="#">Mantra</a>
+                <a href="#">Emcutix</a>
+            </section>
+
+            <section class="sls-footer-col">
+                <h3>Careers</h3>
+                <a href="#careers">Life at Sanbury</a>
+                <a href="#careers">Learnings & Growth</a>
+                <a href="#careers">Current Openings</a>
+                <a asp-controller="Account" asp-action="Register">Partner Registration</a>
+                <a asp-controller="Account" asp-action="Login">Client Login</a>
+            </section>
+        </div>
+
+        <div class="sls-footer-legal">
+            <p>(c) @DateTime.UtcNow.Year, All Rights Reserved</p>
+            <div class="sls-legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Disclaimer</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>

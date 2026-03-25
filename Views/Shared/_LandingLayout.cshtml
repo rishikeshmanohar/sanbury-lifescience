@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sanbury LifeScience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="sls-header">
+        <div class="sls-nav-wrap">
+            <a class="sls-brand" asp-controller="Home" asp-action="Index">
+                <span class="sls-brand-main">Sanbury</span>
+                <span class="sls-brand-sub">LifeScience</span>
+            </a>
+            <button class="sls-nav-toggle" type="button" data-nav-toggle aria-controls="sls-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="sls-nav" id="sls-nav">
+                <div class="sls-nav-item sls-nav-has-dropdown">
+                    <button class="sls-nav-link sls-nav-trigger" type="button" data-dropdown-toggle aria-expanded="false">
+                        About Us
+                        <span class="sls-caret" aria-hidden="true"></span>
+                    </button>
+                    <div class="sls-dropdown">
+                        <a href="#about">Overview</a>
+                        <a href="#leadership">Leadership</a>
+                        <a href="#investors">Milestones</a>
+                    </div>
+                </div>
+
+                <div class="sls-nav-item sls-nav-has-dropdown">
+                    <button class="sls-nav-link sls-nav-trigger" type="button" data-dropdown-toggle aria-expanded="false">
+                        Science & Innovation
+                        <span class="sls-caret" aria-hidden="true"></span>
+                    </button>
+                    <div class="sls-dropdown">
+                        <a href="#innovation">Overview</a>
+                        <a href="#formulations">Formulations</a>
+                        <a href="#apis">APIs</a>
+                        <a href="#biologics">Biologics</a>
+                    </div>
+                </div>
+
+                <a class="sls-nav-link" href="#manufacturing">Manufacturing</a>
+                <a class="sls-nav-link" href="#investors">Investors</a>
+                <a class="sls-nav-link" href="#newsroom">Media Centre</a>
+                <a class="sls-nav-link" href="#csr">CSR</a>
+
+                <div class="sls-nav-item sls-nav-has-dropdown">
+                    <button class="sls-nav-link sls-nav-trigger" type="button" data-dropdown-toggle aria-expanded="false">
+                        Career
+                        <span class="sls-caret" aria-hidden="true"></span>
+                    </button>
+                    <div class="sls-dropdown">
+                        <a href="#careers">Life at Sanbury</a>
+                        <a href="#careers">Learnings & Growth</a>
+                        <a href="#careers">Current Openings</a>
+                    </div>
+                </div>
+
+                <a class="sls-nav-link" href="#contact">Contact Us</a>
+                <a class="sls-nav-link" asp-controller="Cart" asp-action="Index">Cart</a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a class="sls-nav-link" asp-controller="Orders" asp-action="MyOrders">My Orders</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="sls-nav-link" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+                    }
+                    <a class="sls-nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                }
+                else
+                {
+                    <a class="sls-nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                    <a class="sls-nav-link sls-pill-link" asp-controller="Account" asp-action="Register">Register</a>
+                }
+            </nav>
+        </div>
+    </header>
+
+    <main class="sls-main">
+        @RenderBody()
+    </main>
+
+    <script src="~/js/landing.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
