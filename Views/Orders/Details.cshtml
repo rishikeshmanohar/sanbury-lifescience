@@ -1,36 +1,96 @@
-@model SanburyLifeScience.Web.Models.Order
+﻿@model SanburyLifeScience.Web.Models.Order
+@{
+    ViewData["Title"] = "Order Details";
 
-<h2>Order #@Model.Id</h2>
-<p><strong>Status:</strong> @Model.Status</p>
-<p><strong>Payment:</strong> @Model.PaymentStatus</p>
-<p><strong>Reference:</strong> @Model.PaymentReference</p>
-<p><strong>Customer:</strong> @Model.AppUser?.FullName</p>
-<p><strong>Billing Address:</strong> @Model.BillingAddress</p>
+    var orderStatusClass = Model.Status.Contains("Failed", StringComparison.OrdinalIgnoreCase)
+        ? "is-bad"
+        : Model.Status.Contains("Pending", StringComparison.OrdinalIgnoreCase)
+            ? "is-warn"
+            : "is-good";
+    var paymentStatusClass = Model.PaymentStatus.Contains("Failed", StringComparison.OrdinalIgnoreCase)
+        ? "is-bad"
+        : Model.PaymentStatus.Contains("Pending", StringComparison.OrdinalIgnoreCase) || Model.PaymentStatus.Contains("Initiated", StringComparison.OrdinalIgnoreCase)
+            ? "is-warn"
+            : Model.PaymentStatus.Contains("Paid", StringComparison.OrdinalIgnoreCase)
+                ? "is-good"
+                : "is-neutral";
+}
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>GST</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Items)
-    {
-        <tr>
-            <td>@item.Product?.Name</td>
-            <td>@item.Quantity</td>
-            <td>₹@item.UnitPrice</td>
-            <td>@item.GstPercent%</td>
-            <td>₹@item.LineTotal</td>
-        </tr>
-    }
-    </tbody>
-</table>
+<section class="sls-order-details-page">
+    <div class="sls-order-details-shell">
+        <div class="sls-orders-head">
+            <p class="sls-cart-kicker">Order Tracking</p>
+            <h1>Order #@Model.Id</h1>
+            <p class="sls-cart-copy">Detailed breakdown of products, billing, and payment verification.</p>
+        </div>
 
-<h5>Subtotal: ₹@Model.SubTotal</h5>
-<h5>GST: ₹@Model.GstAmount</h5>
-<h4>Grand Total: ₹@Model.GrandTotal</h4>
+        <div class="sls-order-meta-grid">
+            <article class="sls-order-meta-card">
+                <h2>Order Status</h2>
+                <span class="sls-status-chip @orderStatusClass">@Model.Status</span>
+            </article>
+            <article class="sls-order-meta-card">
+                <h2>Payment Status</h2>
+                <span class="sls-status-chip @paymentStatusClass">@Model.PaymentStatus</span>
+            </article>
+            <article class="sls-order-meta-card">
+                <h2>Customer</h2>
+                <p>@Model.AppUser?.FullName</p>
+            </article>
+            <article class="sls-order-meta-card">
+                <h2>Created</h2>
+                <p>@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")</p>
+            </article>
+        </div>
+
+        <div class="sls-order-ref-card">
+            <p><strong>Payment Reference:</strong> @(string.IsNullOrWhiteSpace(Model.PaymentReference) ? "Not Available" : Model.PaymentReference)</p>
+            <p><strong>Billing Address:</strong> @Model.BillingAddress</p>
+        </div>
+
+        <div class="sls-orders-table-wrap">
+            <table class="sls-orders-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>GST</th>
+                        <th>Line Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td data-label="Product">@item.Product?.Name</td>
+                            <td data-label="Qty">@item.Quantity</td>
+                            <td data-label="Unit Price">INR @item.UnitPrice</td>
+                            <td data-label="GST">@item.GstPercent%</td>
+                            <td data-label="Line Total">INR @item.LineTotal</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="sls-order-total-card">
+            <div class="sls-summary-row">
+                <span>Subtotal</span>
+                <strong>INR @Model.SubTotal</strong>
+            </div>
+            <div class="sls-summary-row">
+                <span>GST</span>
+                <strong>INR @Model.GstAmount</strong>
+            </div>
+            <div class="sls-summary-row sls-summary-total">
+                <span>Grand Total</span>
+                <strong>INR @Model.GrandTotal</strong>
+            </div>
+
+            <div class="sls-summary-actions">
+                <a class="sls-summary-back" asp-action="MyOrders">Back to My Orders</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,28 +1,47 @@
-@model List<SanburyLifeScience.Web.Models.Product>
-<h2>Manage Products</h2>
-<a asp-action="CreateProduct" class="btn btn-success mb-3">Add Product</a>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Brand</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Expiry</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Category</td>
-            <td>@item.Brand</td>
-            <td>₹@item.Price</td>
-            <td>@item.StockQuantity</td>
-            <td>@item.ExpiryDate.ToShortDateString()</td>
-        </tr>
-    }
-    </tbody>
-</table>
+﻿@model List<SanburyLifeScience.Web.Models.Product>
+@{
+    ViewData["Title"] = "Manage Products";
+}
+
+<section class="sls-admin-page">
+    <div class="sls-admin-shell">
+        <div class="sls-orders-head">
+            <p class="sls-cart-kicker">Administration</p>
+            <h1>Manage Products</h1>
+            <p class="sls-cart-copy">Review and maintain the product catalog available to customers.</p>
+        </div>
+
+        <div class="sls-admin-actions">
+            <a asp-action="CreateProduct" class="sls-auth-submit sls-checkout-btn">Add Product</a>
+            <a asp-action="Dashboard" class="sls-summary-back">Back to Dashboard</a>
+        </div>
+
+        <div class="sls-orders-table-wrap">
+            <table class="sls-orders-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Expiry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-label="Name">@item.Name</td>
+                            <td data-label="Category">@item.Category</td>
+                            <td data-label="Brand">@item.Brand</td>
+                            <td data-label="Price">INR @item.Price</td>
+                            <td data-label="Stock">@item.StockQuantity</td>
+                            <td data-label="Expiry">@item.ExpiryDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

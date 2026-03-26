@@ -1,16 +1,105 @@
-@model SanburyLifeScience.Web.Models.Product
+﻿@model SanburyLifeScience.Web.Models.Product
+@{
+    ViewData["Title"] = "Create Product";
+}
 
-<h2>Create Product</h2>
-<form method="post">
-    <div class="mb-2"><label asp-for="Name"></label><input asp-for="Name" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="Category"></label><input asp-for="Category" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="Brand"></label><input asp-for="Brand" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="BatchNumber"></label><input asp-for="BatchNumber" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="ExpiryDate"></label><input asp-for="ExpiryDate" type="date" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="Price"></label><input asp-for="Price" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="GstPercent"></label><input asp-for="GstPercent" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="StockQuantity"></label><input asp-for="StockQuantity" class="form-control" /></div>
-    <div class="mb-2"><label asp-for="Description"></label><textarea asp-for="Description" class="form-control"></textarea></div>
-    <div class="mb-2"><label asp-for="ImageUrl"></label><input asp-for="ImageUrl" class="form-control" /></div>
-    <button class="btn btn-primary">Save Product</button>
-</form>
+<section class="sls-auth-page">
+    <div class="sls-auth-wrap sls-auth-wrap-register">
+        <aside class="sls-auth-side">
+            <p class="sls-auth-kicker">Administration</p>
+            <h1>Add New Product</h1>
+            <p class="sls-auth-copy">
+                Create a catalog entry with pricing, GST, stock, and batch information for order processing.
+            </p>
+            <ul class="sls-auth-points">
+                <li>Use clear product and category naming</li>
+                <li>Keep batch and expiry data up to date</li>
+                <li>Verify GST and stock before saving</li>
+            </ul>
+        </aside>
+
+        <div class="sls-auth-card">
+            <h2>Create Product</h2>
+            <p class="sls-auth-subtitle">Enter complete product metadata for your storefront.</p>
+
+            <form method="post" asp-action="CreateProduct" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger sls-validation-summary"></div>
+
+                <div class="sls-field-grid">
+                    <div class="sls-field">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="sls-field">
+                        <label asp-for="Category"></label>
+                        <input asp-for="Category" class="form-control" />
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="sls-field-grid">
+                    <div class="sls-field">
+                        <label asp-for="Brand"></label>
+                        <input asp-for="Brand" class="form-control" />
+                        <span asp-validation-for="Brand" class="text-danger"></span>
+                    </div>
+                    <div class="sls-field">
+                        <label asp-for="BatchNumber"></label>
+                        <input asp-for="BatchNumber" class="form-control" />
+                        <span asp-validation-for="BatchNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="sls-field-grid">
+                    <div class="sls-field">
+                        <label asp-for="ExpiryDate"></label>
+                        <input asp-for="ExpiryDate" type="date" class="form-control" />
+                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                    </div>
+                    <div class="sls-field">
+                        <label asp-for="Price"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="sls-field-grid">
+                    <div class="sls-field">
+                        <label asp-for="GstPercent"></label>
+                        <input asp-for="GstPercent" class="form-control" />
+                        <span asp-validation-for="GstPercent" class="text-danger"></span>
+                    </div>
+                    <div class="sls-field">
+                        <label asp-for="StockQuantity"></label>
+                        <input asp-for="StockQuantity" class="form-control" />
+                        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="sls-field">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="sls-auth-submit">Save Product</button>
+            </form>
+
+            <p class="sls-auth-switch">
+                Need to review catalog?
+                <a asp-action="Products">Go to Manage Products</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

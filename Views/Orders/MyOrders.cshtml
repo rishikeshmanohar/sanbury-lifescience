@@ -1,28 +1,73 @@
 @model List<SanburyLifeScience.Web.Models.Order>
+@{
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "My Orders";
+}
 
-<h2>My Orders</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Order Id</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Payment</th>
-            <th>Total</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.CreatedAt</td>
-            <td>@item.Status</td>
-            <td>@item.PaymentStatus</td>
-            <td>₹@item.GrandTotal</td>
-            <td><a asp-action="Details" asp-route-id="@item.Id">View</a></td>
-        </tr>
-    }
-    </tbody>
-</table>
+<section class="sls-orders-page">
+    <div class="sls-orders-shell">
+        <div class="sls-orders-head">
+            <p class="sls-cart-kicker">Order History</p>
+            <h1>My Orders</h1>
+            <p class="sls-cart-copy">Track order status, payment progress, and open full order details.</p>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="sls-orders-table-wrap">
+                <table class="sls-orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var orderStatusClass = item.Status.Contains("Failed", StringComparison.OrdinalIgnoreCase)
+                                ? "is-bad"
+                                : item.Status.Contains("Pending", StringComparison.OrdinalIgnoreCase)
+                                    ? "is-warn"
+                                    : "is-good";
+                            var paymentStatusClass = item.PaymentStatus.Contains("Failed", StringComparison.OrdinalIgnoreCase)
+                                ? "is-bad"
+                                : item.PaymentStatus.Contains("Pending", StringComparison.OrdinalIgnoreCase) || item.PaymentStatus.Contains("Initiated", StringComparison.OrdinalIgnoreCase)
+                                    ? "is-warn"
+                                    : item.PaymentStatus.Contains("Paid", StringComparison.OrdinalIgnoreCase)
+                                        ? "is-good"
+                                        : "is-neutral";
+
+                            <tr>
+                                <td data-label="Order ID">#@item.Id</td>
+                                <td data-label="Date">@item.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")</td>
+                                <td data-label="Status">
+                                    <span class="sls-status-chip @orderStatusClass">@item.Status</span>
+                                </td>
+                                <td data-label="Payment">
+                                    <span class="sls-status-chip @paymentStatusClass">@item.PaymentStatus</span>
+                                </td>
+                                <td data-label="Total">INR @item.GrandTotal</td>
+                                <td data-label="Action">
+                                    <a class="sls-orders-link" asp-action="Details" asp-route-id="@item.Id">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="sls-orders-empty">
+                <h2>No orders yet</h2>
+                <p>Once you place an order, it will appear here with payment and fulfillment status.</p>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="manufacturing" class="sls-auth-submit sls-checkout-btn">Browse Products</a>
+            </div>
+        }
+    </div>
+</section>

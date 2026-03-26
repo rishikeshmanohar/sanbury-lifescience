@@ -19,7 +19,7 @@ public class InvoiceService : IInvoiceService
             AppUserId = userId,
             BillingAddress = billingAddress,
             Status = "Created",
-            PaymentStatus = "Pending"
+            PaymentStatus = "PendingInitiation"
         };
 
         foreach (var item in cartItems)

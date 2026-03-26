@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>sanbury-lifescience-web-64f56f23-9346-4f0c-a12d-cf8fc7c3be45</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,11 +1,111 @@
-@model SanburyLifeScience.Web.ViewModels.CheckoutViewModel
+﻿@model SanburyLifeScience.Web.ViewModels.CheckoutViewModel
+@using System.Text.Json
+@{
+    Layout = "_LandingLayout";
+    ViewData["Title"] = "Checkout";
 
-<h2>Checkout</h2>
-<form method="post">
-    <div class="mb-3">
-        <label asp-for="BillingAddress"></label>
-        <textarea asp-for="BillingAddress" class="form-control"></textarea>
-        <span asp-validation-for="BillingAddress" class="text-danger"></span>
+    var hasPaymentSession = Model.ReadyForPayment &&
+                            Model.OrderId.HasValue &&
+                            !string.IsNullOrWhiteSpace(Model.GatewayOrderId) &&
+                            Model.AmountInPaise.HasValue &&
+                            !string.IsNullOrWhiteSpace(Model.RazorpayKeyId);
+
+    var callbackUrl = Url.Action("RazorpayCallback", "Orders", null, Context.Request.Scheme);
+
+    var razorpayOptions = hasPaymentSession
+        ? JsonSerializer.Serialize(new
+        {
+            key = Model.RazorpayKeyId,
+            amount = Model.AmountInPaise,
+            currency = Model.Currency,
+            name = "Sanbury LifeScience",
+            description = $"Order #{Model.OrderId}",
+            order_id = Model.GatewayOrderId,
+            callback_url = callbackUrl,
+            redirect = true,
+            prefill = new
+            {
+                email = Model.CustomerEmail
+            },
+            notes = new
+            {
+                app_order_id = Model.OrderId?.ToString()
+            },
+            theme = new
+            {
+                color = "#f97316"
+            }
+        })
+        : "{}";
+}
+
+<section class="sls-auth-page">
+    <div class="sls-auth-wrap sls-auth-wrap-register">
+        <aside class="sls-auth-side">
+            <p class="sls-auth-kicker">Checkout</p>
+            <h1>Secure INR Payments</h1>
+            <p class="sls-auth-copy">
+                We use Razorpay to accept INR payments with Google Pay, UPI, cards, and netbanking. Your order is confirmed only after successful payment verification.
+            </p>
+            <ul class="sls-auth-points">
+                <li>Server-created Razorpay order id</li>
+                <li>Signature verification on callback</li>
+                <li>Webhook-backed payment lifecycle updates</li>
+            </ul>
+        </aside>
+
+        <div class="sls-auth-card">
+            <h2>Billing & Payment</h2>
+            <p class="sls-auth-subtitle">Enter billing address and start payment.</p>
+
+            <form method="post" asp-action="Checkout" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger sls-validation-summary"></div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.PaymentInitError))
+                {
+                    <div class="alert alert-danger">@Model.PaymentInitError</div>
+                }
+
+                <div class="sls-field">
+                    <label asp-for="BillingAddress"></label>
+                    <textarea asp-for="BillingAddress" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="BillingAddress" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="sls-auth-submit">Create Razorpay Order</button>
+            </form>
+
+            @if (hasPaymentSession)
+            {
+                <div class="sls-empty-state" style="margin-top: 16px;">
+                    <p><strong>Order #@Model.OrderId</strong> is ready for payment.</p>
+                    <button id="rzp-pay-btn" type="button" class="sls-auth-submit sls-checkout-btn">Pay with Razorpay (Google Pay/UPI/Card)</button>
+                </div>
+            }
+        </div>
     </div>
-    <button class="btn btn-success">Place Order</button>
-</form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (hasPaymentSession)
+    {
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            (function () {
+                var button = document.getElementById("rzp-pay-btn");
+                if (!button || typeof Razorpay === "undefined") {
+                    return;
+                }
+
+                var options = @Html.Raw(razorpayOptions);
+                var razorpay = new Razorpay(options);
+
+                button.addEventListener("click", function () {
+                    razorpay.open();
+                });
+            })();
+        </script>
+    }
+}

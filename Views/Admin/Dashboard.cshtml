@@ -1,7 +1,33 @@
-<h2>Admin Dashboard</h2>
-<div class="row">
-    <div class="col-md-4"><div class="card p-3"><h4>Products</h4><p>@ViewBag.ProductCount</p></div></div>
-    <div class="col-md-4"><div class="card p-3"><h4>Orders</h4><p>@ViewBag.OrderCount</p></div></div>
-    <div class="col-md-4"><div class="card p-3"><h4>Users</h4><p>@ViewBag.UserCount</p></div></div>
-</div>
-<a asp-action="Products" class="btn btn-primary mt-3">Manage Products</a>
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="sls-admin-page">
+    <div class="sls-admin-shell">
+        <div class="sls-orders-head">
+            <p class="sls-cart-kicker">Administration</p>
+            <h1>Dashboard</h1>
+            <p class="sls-cart-copy">Monitor catalog, order volume, and platform users in one place.</p>
+        </div>
+
+        <div class="sls-admin-stats-grid">
+            <article class="sls-admin-stat-card">
+                <h2>Products</h2>
+                <p>@ViewBag.ProductCount</p>
+            </article>
+            <article class="sls-admin-stat-card">
+                <h2>Orders</h2>
+                <p>@ViewBag.OrderCount</p>
+            </article>
+            <article class="sls-admin-stat-card">
+                <h2>Users</h2>
+                <p>@ViewBag.UserCount</p>
+            </article>
+        </div>
+
+        <div class="sls-admin-actions">
+            <a asp-action="Products" class="sls-auth-submit sls-checkout-btn">Manage Products</a>
+            <a asp-controller="Orders" asp-action="MyOrders" class="sls-summary-back">View Orders</a>
+        </div>
+    </div>
+</section>

@@ -3,6 +3,8 @@ obj/
 *.user
 *.suo
 *.db
+*.db-wal
+*.db-shm
 *.sqlite
 wwwroot/exports/
 node_modules/

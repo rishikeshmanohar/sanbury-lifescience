@@ -28,11 +28,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<RazorpayOptions>(builder.Configuration.GetSection("Razorpay"));
+builder.Services.PostConfigure<RazorpayOptions>(options =>
+{
+    options.KeyId = FirstNonEmpty(Environment.GetEnvironmentVariable("RAZORPAY_KEY_ID"), options.KeyId);
+    options.KeySecret = FirstNonEmpty(Environment.GetEnvironmentVariable("RAZORPAY_KEY_SECRET"), options.KeySecret);
+    options.WebhookSecret = FirstNonEmpty(Environment.GetEnvironmentVariable("RAZORPAY_WEBHOOK_SECRET"), options.WebhookSecret);
+    options.BaseUrl = FirstNonEmpty(Environment.GetEnvironmentVariable("RAZORPAY_BASE_URL"), options.BaseUrl);
+});
+builder.Services.AddHttpClient<IPaymentGateway, RazorpayPaymentGateway>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-builder.Services.AddScoped<IPaymentGateway, DemoPaymentGateway>();
 builder.Services.AddScoped<IVyaparSyncService, VyaparSyncService>();
 
 var app = builder.Build();
@@ -63,3 +71,14 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+static string FirstNonEmpty(params string?[] values)
+{
+    foreach (var value in values)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+            return value.Trim();
+    }
+
+    return string.Empty;
+}
