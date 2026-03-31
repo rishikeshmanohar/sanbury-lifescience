@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sanbury LifeScience | Leadership Message</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sls-ink: #1b2a43;
+      --sls-red: #f97316;
+      --sls-red-deep: #c74a00;
+      --card-shadow: 0 24px 42px rgba(150, 95, 39, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", "Segoe UI", Tahoma, sans-serif;
+      color: var(--sls-ink);
+      background:
+        radial-gradient(circle at 80% -10%, rgba(249, 115, 22, 0.16), transparent 36%),
+        linear-gradient(180deg, #fff8f1 0%, #fff2e5 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .quote-card {
+      width: min(980px, 100%);
+      border-radius: 34px;
+      background: #ffffff;
+      border: 1px solid #f2d9c0;
+      box-shadow: var(--card-shadow);
+      padding: clamp(24px, 5vw, 52px);
+    }
+
+    .quote-mark {
+      color: var(--sls-red);
+      font-family: "Sora", "Trebuchet MS", sans-serif;
+      font-size: clamp(3.2rem, 9vw, 6rem);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .quote-copy {
+      margin: 0;
+      color: #35435a;
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      line-height: 1.8;
+    }
+
+    .quote-name {
+      margin: 30px 0 8px;
+      color: var(--sls-red-deep);
+      font-family: "Sora", "Trebuchet MS", sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .quote-role {
+      margin: 0;
+      color: #45556e;
+      font-size: clamp(1rem, 2.6vw, 1.2rem);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <article class="quote-card" aria-label="Leadership message">
+    <div class="quote-mark">&ldquo;</div>
+    <p class="quote-copy">
+      Since inception, Sanbury has remained committed to introducing differentiated
+      products backed by science and innovation. We continue to work with healthcare
+      ecosystems to deliver affordable, high-quality therapeutic options that enable
+      healthier lives. Our conviction remains clear: when science leads, people win.
+    </p>
+    <h1 class="quote-name">Rajeev Manohar</h1>
+    <p class="quote-role">Managing Director and Chief Executive Officer</p>
+  </article>
+</body>
+</html>
