@@ -1,7 +1,7 @@
 ﻿@model List<SanburyLifeScience.Web.Models.Product>
 @{
     Layout = "_LandingLayout";
-    ViewData["Title"] = "Hi rishi";
+    ViewData["Title"] = "Cure & Beyond";
 
     var query = Context.Request.Query["q"].ToString();
     var productsCount = Model.Count;
@@ -23,7 +23,7 @@
 <section class="sls-hero" id="top">
     <div class="sls-hero-shell">
         <p class="sls-kicker reveal">Sanbury LifeScience</p>
-        <h1 class="reveal delay-1">Hi rishi</h1>
+        <h1 class="reveal delay-1">Cure <span>&</span> Beyond</h1>
         <p class="sls-hero-intro reveal delay-2">
             Developing patient-first therapies with trusted science, robust manufacturing, and responsible partnerships that scale access to quality care.
         </p>
@@ -74,6 +74,9 @@
     <div class="section-shell">
         <span class="sls-anchor" id="leadership"></span>
         <div class="sls-quote-card reveal">
+            <figure class="sls-quote-photo">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1000&q=80" alt="Company leadership portrait" />
+            </figure>
             <div class="sls-quote-body">
                 <div class="sls-quote-mark">&ldquo;</div>
                 <p>
@@ -81,7 +84,7 @@
                     We continue to work with healthcare ecosystems to deliver affordable, high-quality therapeutic options that enable healthier lives.
                     Our conviction remains clear: when science leads, people win.
                 </p>
-                <h3 class="sls-quote-name">Rajeev Manohar</h3>
+                <h3 class="sls-quote-name">Satish Ramanlal Mehta</h3>
                 <p class="sls-quote-role">Managing Director and Chief Executive Officer</p>
             </div>
         </div>
